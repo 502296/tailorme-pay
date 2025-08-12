@@ -1,12 +1,26 @@
 {
 
-  "functions": {
+  "name": "tailorme-pay",
 
-    "api/**/*.js": {
+  "version": "1.0.0",
 
-      "runtime": "nodejs18.x"
+  "description": "TailorMe Payment System",
 
-    }
+  "main": "index.js",
+
+  "scripts": {
+
+    "dev": "vercel dev",
+
+    "build": "vercel build",
+
+    "start": "vercel dev"
+
+  },
+
+  "dependencies": {
+
+    "@vercel/node": "^3.0.0"
 
   }
 
