@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<title>Create Payment Link – TailorMe</title>
+
+<style>
+
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#0d0f14;color:#eee;padding:24px}
+
+  .card{max-width:560px;margin:auto;background:#121622;border:1px solid #2a2f3b;border-radius:14px;padding:20px}
+
+  h1{font-size:20px;margin:0 0 14px}
+
+  label{display:block;margin:12px 0 6px}
+
+  input,textarea,button{width:100%;padding:12px;border-radius:10px;border:1px solid #2a2f3b;background:#0b0e15;color:#eee}
+
+  button{cursor:pointer;font-weight:600}
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+  .out{margin-top:14px;display:flex;gap:8px}
+
+  .success{color:#8ff0a4;margin-top:10px}
+
+  .err{color:#ff8a8a;margin-top:10px}
+
+</style>
+
+</head>
+
+<body>
+
+  <div class="card">
+
+    <h1>Generate Checkout Link</h1>
+
+
+
+    <label>Amount (USD)</label>
+
+    <input id="amount" type="number" step="0.01" min="1" placeholder="e.g., 85" />
+
+
+
+    <label>Description</label>
+
+    <textarea id="desc" rows="2" placeholder="TailorMe – Order #1234"></textarea>
+
+
+
+    <div class="row">
+
+      <div>
+
+        <label>Customer Email (optional)</label>
+
+        <input id="email" type="email" placeholder="customer@example.com" />
+
+      </div>
+
+      <div>
+
+        <label>—</label>
+
+        <button id="createBtn">Create Link</button>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="out">
+
+      <input id="link" type="text" readonly placeholder="Link will appear here" />
+
+      <button id="copyBtn">Copy</button>
+
+    </div>
+
+
+
+    <div id="msg"></div>
+
+  </div>
+
+
+
+<script>
+
+const $ = (id)=>document.getElementById(id);
+
+
+
+document.getElementById('createBtn').onclick = async () => {
+
+  const msg = $('msg'), link = $('link');
+
+  msg.textContent = ''; link.value = '';
+
+
+
+  const amountUsd = Number($('amount').value);
+
+  if (!amountUsd || amountUsd <= 0) {
+
+    msg.innerHTML = '<div class="err">Enter a valid amount.</div>';
+
+    return;
+
+  }
+
+  try {
+
+    const res = await fetch('/api/create-checkout-session', {
+
+      method: 'POST',
+
+      headers: {'Content-Type':'application/json'},
+
+      body: JSON.stringify({
+
+        amountUsd,
+
+        description: $('desc').value || 'TailorMe Payment',
+
+        customerEmail: $('email').value || undefined
+
+      })
+
+    });
+
+    const data = await res.json();
+
+    if (data.url) {
+
+      link.value = data.url;
+
+      msg.innerHTML = '<div class="success">Link created. Copy & send to the customer.</div>';
+
+    } else {
+
+      throw new Error(data.error || 'Unknown error');
+
+    }
+
+  } catch (e) {
+
+    msg.innerHTML = '<div class="err">Error: ' + e.message + '</div>';
+
+  }
+
+};
+
+
+
+document.getElementById('copyBtn').onclick = async () => {
+
+  const v = document.getElementById('link').value;
+
+  if (!v) return;
+
+  await navigator.clipboard.writeText(v);
+
+  document.getElementById('msg').innerHTML = '<div class="success">Copied!</div>';
+
+};
+
+</script>
+
+</body>
+
+</html>
