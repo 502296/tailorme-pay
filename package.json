@@ -4,15 +4,19 @@
 
   "version": "1.0.0",
 
-  "scripts": {
+  "private": true,
 
-    "start": "node index.js"
-
-  },
+  "type": "module",
 
   "engines": {
 
     "node": "18.x"
+
+  },
+
+  "dependencies": {
+
+    "stripe": "^16.0.0"
 
   }
 
