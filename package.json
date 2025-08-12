@@ -2,29 +2,19 @@
 
   "name": "tailorme-pay",
 
-  "version": "1.0.0",
-
   "private": true,
 
   "type": "module",
 
-  "main": "index.js",
+  "engines": {
 
-  "scripts": {
-
-    "start": "node index.js"
+    "node": "18.x"
 
   },
 
   "dependencies": {
 
     "stripe": "^16.0.0"
-
-  },
-
-  "engines": {
-
-    "node": "18.x"
 
   }
 
