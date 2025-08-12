@@ -4,23 +4,15 @@
 
   "version": "1.0.0",
 
-  "description": "TailorMe Payment System",
-
-  "main": "index.js",
-
   "scripts": {
 
-    "dev": "vercel dev",
-
-    "build": "vercel build",
-
-    "start": "vercel dev"
+    "start": "node index.js"
 
   },
 
-  "dependencies": {
+  "engines": {
 
-    "@vercel/node": "^3.0.0"
+    "node": "18.x"
 
   }
 
