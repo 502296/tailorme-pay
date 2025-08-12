@@ -1,15 +1,13 @@
 {
 
-  "name": "tailorme-pay",
+  "functions": {
 
-  "version": "1.0.0",
+    "api/**/*.js": {
 
-  "private": true,
+      "runtime": "nodejs18.x"
 
-  "type": "module",
+    }
 
-  "engines": { "node": "18.x" },
-
-  "dependencies": { "stripe": "^16.0.0" }
+  }
 
 }
